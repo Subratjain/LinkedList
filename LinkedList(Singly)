@@ -1,54 +1,173 @@
-class node
+import java.util.*;
+class Node
 {
-  int data;
-  node next;
-  node(int data)
-  {
-    this.data=data;
-  }
+    int data;
+    Node next;
+    Node(int data)
+    {
+        this.data=data;
+
+    }
 }
 public class Main
-{node head;
-  public void print()
-  {
-    
-    node temp=head;
-    while(temp!=null)
+{
+    Node head;
+    //METHOD TO PRINTTHE NODE
+    public void print()
     {
-      System.out.println(temp.data);
-      temp=temp.next;
+        Node temp= head;
+        while(temp!=null)
+        {
+            System.out.println(temp.data+" ");
+            temp=temp.next;
+        }
     }
-  }
-  public void reverse()
-  {
-    node pre=null;
-    node cu=null;
-    node temp=head;
-    while(temp!=null)
+    //METHOD TO INSERT THE NODE AT BEGINNING
+    public void insertAtBeg(int k)
     {
-     cu=temp.next;
-     temp.next=pre;
-     pre=temp;
-     temp=cu;
-      
+        Node n = new Node(k);
+        if(head==null)
+        head=n;
+        else{
+            n.next=head;
+            head=n;
+        }
     }
-    head=pre;
-  }
-  public static void main(String args[])
-  {
-    Main obj=new Main();
-    node n=new node(10);
-    node n1=new node(20);
-    node n2=new node(30);
-    node n3=new node(40);
-    node n4=new node(50);
-    obj.head=n;
-    n.next=n1;
-  n1.next=n2;
-    n2.next=n3;
-    n3.next=n4;
- 
-    obj.reverse();
-    obj.print();
-  }
+    //METHOD TO INSERT THE NODE AT LAST(END)
+    public void insertAtEnd(int x)
+    {
+        Node n= new Node(x);
+        Node temp=head;
+        while(temp.next!=null)
+        {
+            temp=temp.next;
+        }
+        temp.next =n;
+    }
+    //METHOD TO COUNT THE NUMBER OF NODE
+    public int count()
+    {
+        int c=0;
+        Node temp=head;
+        while(temp!=null)
+        {
+            c++;
+            temp=temp.next;
+        }
+        return c;
+    }
+    //METHOD TO INSERT THE NODE AT THE GIVEN POSITION WITH THE GIVEN ELEMENT
+    public void insertAtPos(int pos, int x) {
+        Node n = new Node(x);
+        if (head == null) {
+            if (pos > 1) {
+                System.out.println("INVALID POSITION");
+            }
+            else
+            {
+                head=n;
+            }
+        }
+        else
+        {
+            if(pos==1)
+            {
+                n.next=head;
+                head=n;
+            }
+            else if(pos>count()+1)
+            {
+                System.out.println("INVALID POSITION");
+            }
+            else
+            {
+                Node temp=head;
+                int c=1;
+                while(temp.next!=null)
+                {
+                    if(c==pos-1)
+                    {
+                        break;
+                    }
+                    c++;
+                    temp=temp.next;
+                }
+                n.next=temp.next;
+                temp.next=n;
+            }
+        }
+    }
+    //METHOD TO DELETE A NODE AT BEGINNING
+    public void deleteAtBeg(){
+        if(head==null)
+            return;
+        else{
+            head = head.next;
+        }
+    }
+    //METHOD TO DELETE A NODE AT LAST(END)
+    public void deleteAtEnd(){
+        if(head==null)
+            return;
+        else{
+            Node temp = head;
+            if(temp.next==null){
+                head = null;
+            }
+            else{
+                while(temp.next.next!=null){
+                    temp = temp.next;
+                }
+                temp.next = null;
+            }
+        }
+    }
+    //METHOD TO DELETE A NODE AT THE GIVEN POSITION
+    public void deleteAtPos(int pos){
+        if(head==null)
+            return;
+        else{
+            if(head.next==null){
+                if(pos!=1){
+                    System.out.println("Invalid position");
+                }
+                else
+                    head=null;
+            }
+            else{
+                int c=1;
+                if(pos>count())
+                    System.out.println("Invalid position");
+                else{
+                    Node temp = head;
+                    while(temp!=null){
+                        if(c==pos-1){
+                            break;
+                        }
+                        c++;
+                        temp = temp.next;
+                    }
+                    temp.next=temp.next.next;
+                }
+            }
+        }
+    }
+    public static void main(String args[])
+    {
+        Main obj =new Main();
+        Scanner sc = new Scanner(System.in);
+        int n=sc.nextInt();
+        for(int i=0;i<n;i++){
+            int m=sc.nextInt();
+            obj.insertAtBeg(m);
+        }
+        System.out.println("Element which you want to insert at last");
+        int s =sc.nextInt();
+        obj.insertAtEnd(s);
+        obj.insertAtPos(2,50);
+        obj.deleteAtBeg();
+        obj.deleteAtEnd();
+        obj.deleteAtPos(3);
+        obj.print();
+    }
 }
